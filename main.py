@@ -4,7 +4,7 @@ import grid
 
 import tree
 
-CELLS = [20,20] # Map Size
+CELLS = [64,32] # Map Size
 PPCELL = 20 # Pixels per cell
 CELLSDISPLAYED = CELLS # Screen size
 pygame.init()
@@ -13,11 +13,16 @@ SCREEN = pygame.display.set_mode((CELLSDISPLAYED[0]*PPCELL,CELLSDISPLAYED[1]*PPC
 
 gameGrid = grid.Grid(SCREEN,CELLS)
 
-tree_list:list[tree.Tree] = [tree.Tree(gameGrid,PPCELL,SCREEN,(0,4))]
+tree_list:list[tree.Tree] = [tree.Tree(gameGrid,PPCELL,SCREEN,(15,31),None)]
 
 # GAME FLAGS
 GAME_RUNNING = True
 SHOW_GRID = False
+
+# GAME CLOCKS
+clock = pygame.time.Clock()
+gametime = 1000
+gametimer = 1000
 
 # GAME LOOP
 while GAME_RUNNING:
@@ -37,8 +42,14 @@ while GAME_RUNNING:
             pygame.draw.line(SCREEN,(255,255,255),(i*PPCELL,0),(i*PPCELL,CELLS[1]*PPCELL))
             for j in range(CELLSDISPLAYED[1]):
                 pygame.draw.line(SCREEN,(255,255,255),(0,j*PPCELL),(CELLS[0]*PPCELL,j*PPCELL))
+    
+    gametimer-=clock.tick()
+    if gametimer<=0:
+        for _tree in tree_list:
+            _tree.update()
+        gametimer = gametime
 
     for _tree in tree_list:
-        _tree.update()
+        _tree.updatescreen()
 
     pygame.display.flip()

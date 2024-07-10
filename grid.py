@@ -25,3 +25,11 @@ class Grid:
     def checkIfOccupied(self,gridpos:list[int]):
         """Checks if tile is already occupied"""
         return self.tiles[gridpos[0]][gridpos[1]].isOccupied()
+
+    def checkIfInBounds(self,gridpos:list[int]):
+        """ Checks if position is out of bounds"""
+        if gridpos[0] < 0 or gridpos[0] >= self.gridsize[0]:
+            return False
+        if gridpos[1] < 0 or gridpos[1] >= self.gridsize[1]:
+            return False
+        return True

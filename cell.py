@@ -13,3 +13,16 @@ class Cell:
     def getColour(self):
         return self.colour
 
+    def update(self):
+        """ On update, cell attempts to propogate by executing its genome and then it stops being active."""
+        for i in range(4):
+            if self.genome[i]!=0: # Checks that its not trying to make nothing
+                if i == 0: # Up
+                    self.tree.createCell([self.position[0],self.position[1]-1],self.genome[i])
+                elif i == 1: # Right
+                    self.tree.createCell([self.position[0]+1,self.position[1]],self.genome[i])
+                if i == 3: # Down
+                    self.tree.createCell([self.position[0],self.position[1]+1],self.genome[i])
+                elif i == 4: # Left
+                    self.tree.createCell([self.position[0]-1,self.position[1]],self.genome[i])
+        self.tree.active_cell_list.remove(self)
