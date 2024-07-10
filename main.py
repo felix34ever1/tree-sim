@@ -1,13 +1,19 @@
 import pygame
 
-CELLS = [30,30] # Map Size
+import grid
+
+import tree
+
+CELLS = [20,20] # Map Size
 PPCELL = 20 # Pixels per cell
 CELLSDISPLAYED = CELLS # Screen size
 pygame.init()
 
 SCREEN = pygame.display.set_mode((CELLSDISPLAYED[0]*PPCELL,CELLSDISPLAYED[1]*PPCELL),0,0,0,1) # Created display window, with VSYNC
 
+gameGrid = grid.Grid(SCREEN,CELLS)
 
+tree_list:list[tree.Tree] = [tree.Tree(gameGrid,PPCELL,SCREEN,(0,4))]
 
 # GAME FLAGS
 GAME_RUNNING = True
@@ -31,5 +37,8 @@ while GAME_RUNNING:
             pygame.draw.line(SCREEN,(255,255,255),(i*PPCELL,0),(i*PPCELL,CELLS[1]*PPCELL))
             for j in range(CELLSDISPLAYED[1]):
                 pygame.draw.line(SCREEN,(255,255,255),(0,j*PPCELL),(CELLS[0]*PPCELL,j*PPCELL))
-    
+
+    for _tree in tree_list:
+        _tree.update()
+
     pygame.display.flip()
