@@ -18,11 +18,13 @@ tree_list:list[tree.Tree] = [tree.Tree(gameGrid,PPCELL,SCREEN,(15,31),None)]
 # GAME FLAGS
 GAME_RUNNING = True
 SHOW_GRID = False
+PAUSED = False
 
 # GAME CLOCKS
 clock = pygame.time.Clock()
 gametime = 1000
 gametimer = 1000
+turn = 0
 
 # GAME LOOP
 while GAME_RUNNING:
@@ -35,6 +37,15 @@ while GAME_RUNNING:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_l:
                 SHOW_GRID = not SHOW_GRID
+            if event.key == pygame.K_p:
+                PAUSED = not PAUSED
+            if event.key == pygame.K_SPACE and PAUSED:
+                if turn==3:
+                    pass
+                for _tree in tree_list:
+                    _tree.update()
+                turn+=1
+                
 
     SCREEN.fill((0,0,0))
     if SHOW_GRID:
@@ -43,11 +54,13 @@ while GAME_RUNNING:
             for j in range(CELLSDISPLAYED[1]):
                 pygame.draw.line(SCREEN,(255,255,255),(0,j*PPCELL),(CELLS[0]*PPCELL,j*PPCELL))
     
-    gametimer-=clock.tick()
-    if gametimer<=0:
-        for _tree in tree_list:
-            _tree.update()
-        gametimer = gametime
+    if not PAUSED:
+        gametimer-=clock.tick()
+        if gametimer<=0:
+            for _tree in tree_list:
+                _tree.update()
+            gametimer = gametime
+            turn+=1
 
     for _tree in tree_list:
         _tree.updatescreen()

@@ -21,8 +21,8 @@ class Cell:
                     self.tree.createCell([self.position[0],self.position[1]-1],self.genome[i])
                 elif i == 1: # Right
                     self.tree.createCell([self.position[0]+1,self.position[1]],self.genome[i])
-                if i == 3: # Down
+                elif i == 2: # Down
                     self.tree.createCell([self.position[0],self.position[1]+1],self.genome[i])
-                elif i == 4: # Left
+                elif i == 3: # Left
                     self.tree.createCell([self.position[0]-1,self.position[1]],self.genome[i])
-        self.tree.active_cell_list.remove(self)
+        self.tree.active_to_remove_cell_list.append(self)

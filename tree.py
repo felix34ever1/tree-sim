@@ -17,6 +17,8 @@ class Tree:
         self.genome:genome.Genome
 
         self.active_cell_list:list[cell.Cell] = [] # Holds cells that still try to create branches
+        self.active_to_remove_cell_list:list[cell.Cell] = [] # Holds cells that need to be removed from active cell list
+        self.next_turn_cell_list:list[cell.Cell] = [] # Holds cells that will next turn attempt to create branches
         self.cell_list:list[cell.Cell] = []
         # Initialise first cell
         self.createCell(starting_position,1) # Creates a cell from the root chromosome
@@ -33,7 +35,7 @@ class Tree:
                 if self.genome.genome[chromosome][0] != None:
                     newcell:cell.Cell = self.genome.genome[chromosome][0](self,[0,255,0],position)
                     newcell.genome = self.genome.getChromosomeForCell(chromosome)
-                    self.active_cell_list.append(newcell)
+                    self.next_turn_cell_list.append(newcell)
                     self.cell_list.append(newcell)
                     self.tilegrid.placeOnTile(position,self.cell_list[-1])
 
@@ -41,6 +43,11 @@ class Tree:
     def update(self):
         for cell in self.active_cell_list:
             cell.update()
+        for cell in self.active_to_remove_cell_list:
+            self.active_cell_list.remove(cell)
+        for _ in range(len(self.next_turn_cell_list)):
+            self.active_cell_list.append(self.next_turn_cell_list.pop(0))
+        self.active_to_remove_cell_list = []
 
     def updatescreen(self):
         # Updates all the cells where they are
