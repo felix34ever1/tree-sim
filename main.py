@@ -13,7 +13,8 @@ SCREEN = pygame.display.set_mode((CELLSDISPLAYED[0]*PPCELL,CELLSDISPLAYED[1]*PPC
 
 gameGrid = grid.Grid(SCREEN,CELLS)
 
-tree_list:list[tree.Tree] = [tree.Tree(gameGrid,PPCELL,SCREEN,(15,31),None)]
+tree_list:list[tree.Tree] = []
+tree_list.append(tree.Tree(tree_list,gameGrid,PPCELL,SCREEN,(15,31),None))
 
 # GAME FLAGS
 GAME_RUNNING = True
