@@ -23,8 +23,8 @@ PAUSED = False
 
 # GAME CLOCKS
 clock = pygame.time.Clock()
-gametime = 1000
-gametimer = 1000
+gametime = 200
+gametimer = 200
 turn = 0
 
 # GAME LOOP

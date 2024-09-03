@@ -1,4 +1,5 @@
 import cell
+import random
 class Genome:
     
     def __init__(self) -> None:
@@ -19,3 +20,10 @@ class Genome:
         value = self.genome[index]
         
         return value[1:]
+    
+    def mutateChromosome(self)->None:
+        genomesize = len(self.genome) # Get size of genome
+        mutatedgenome = self.genome[random.randint(1,genomesize-1)] # Choose which genome to mutate, can't be the none gene
+        if mutatedgenome[0] == cell.Cell: # Don't mutate seed
+            changed_branch = random.randint(1,4) # Choose a direction to mutate
+            mutatedgenome[changed_branch] = random.randint(1,genomesize-1)

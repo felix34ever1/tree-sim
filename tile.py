@@ -1,5 +1,6 @@
 import pygame
 
+
 class Tile:
 
     def __init__(self,position:list[int]) -> None:
@@ -18,3 +19,4 @@ class Tile:
     
     def isOccupied(self):
         return self.occupied
+    

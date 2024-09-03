@@ -77,21 +77,22 @@ class Tree:
         else: # Tree dies of old age
             
             # Check all cells, if they are seeds, create a new tree for them, then delete all cell references
-            for _cell in self.cell_list:
+            for _cell in self.cell_list: # BUG if a seed is frozen mid air for long enough it will make itself part of a new tree and mutate again
                 if isinstance(_cell,cell.Seed): 
                     newtree = Tree(self.tree_list,self.tilegrid,self.ppcell,self.SCREEN,_cell.position,self.genome)
                     # Run a mutation algorithm on new genome
-
+                    newtree.genome.mutateChromosome()
                     # Replace seed's tree, and activates it
                     _cell.tree = newtree
                     newtree.cell_list.append(_cell)
                     newtree.active_cell_list.append(_cell)
                     self.tree_list.append(newtree)
                     _cell.active=True
-                    self.cell_list.remove(_cell)
                 else:
                     self.tilegrid.placeOnTile(_cell.position,None)
-                    self.cell_list.remove(_cell)
+                # remove self at end and clears all cells
+            self.cell_list.clear() # needs to be cleared after, because if removed before, it will mess with the for loop
+            self.tree_list.remove(self)
 
     def updatescreen(self):
         """Draws the cells to the world"""
